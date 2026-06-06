@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 22nd Birthday Helen! 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Quicksand',sans-serif; background:#fff0f5; overflow-x:hidden; }
+
+.hearts-bg { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; }
+.heart-float { position:absolute; bottom:-50px; animation:floatUp linear infinite; opacity:0; }
+@keyframes floatUp { 0%{transform:translateY(0) rotate(0deg);opacity:0.7} 100%{transform:translateY(-110vh) rotate(360deg);opacity:0} }
+
+/* PIN SCREEN */
+#pin-screen {
+  position:fixed; inset:0;
+  background:linear-gradient(135deg,#ff9dc6 0%,#ffb3d1 30%,#ffd6e7 60%,#fff0f5 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  z-index:1000; gap:18px; padding:20px;
+}
+.pin-emoji { font-size:64px; animation:spinBounce 3s ease-in-out infinite; }
+@keyframes spinBounce { 0%,100%{transform:scale(1) rotate(-5deg)} 50%{transform:scale(1.15) rotate(5deg)} }
+.pin-title { font-family:'Dancing Script',cursive; font-size:30px; color:#c2185b; text-align:center; line-height:1.4; }
+.pin-sub { font-size:13px; color:#e91e8a; opacity:0.85; }
+.pin-dots { display:flex; gap:12px; margin:4px 0; }
+.pin-dot { width:20px; height:20px; border-radius:50%; background:rgba(194,24,91,0.15); border:2px solid #c2185b; transition:background 0.2s; }
+.pin-dot.filled { background:#c2185b; transform:scale(1.1); }
+.pin-keypad { display:grid; grid-template-columns:repeat(3,68px); gap:10px; }
+.pin-btn { width:68px; height:68px; border-radius:50%; border:2px solid #e91e8a; background:white; font-size:24px; font-weight:700; font-family:'Quicksand',sans-serif; color:#c2185b; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+.pin-btn:hover { background:#fce4ec; transform:scale(1.08); }
+.pin-btn:active { transform:scale(0.93); background:#f48fb1; color:white; }
+.pin-error { color:#e53935; font-size:13px; height:20px; font-weight:700; text-align:center; }
+.pin-shake { animation:shake 0.4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
+
+/* MAIN */
+#main-content { display:none; position:relative; z-index:1; }
+
+/* HERO */
+.hero {
+  background:linear-gradient(160deg,#ff6faa 0%,#ff9dc6 40%,#ffb3d1 70%,#ffd6e7 100%);
+  min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:40px 20px; position:relative; overflow:hidden;
+}
+.confetti-piece { position:absolute; border-radius:2px; animation:confettiFall linear infinite; }
+@keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(110vh) rotate(720deg);opacity:0} }
+.hero-emoji-row { font-size:36px; margin-bottom:14px; animation:wiggle 2s ease-in-out infinite; }
+@keyframes wiggle { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
+.hero-title { font-family:'Pacifico',cursive; font-size:clamp(34px,8vw,72px); color:white; text-shadow:3px 3px 0 #c2185b,6px 6px 0 rgba(194,24,91,0.3); line-height:1.2; margin-bottom:10px; }
+.hero-age { font-family:'Pacifico',cursive; font-size:clamp(64px,18vw,120px); color:#fff; text-shadow:4px 4px 0 #e91e8a,8px 8px 0 rgba(233,30,138,0.25); animation:pulse 1.5s ease-in-out infinite; line-height:1; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+.hero-name { font-family:'Dancing Script',cursive; font-size:clamp(22px,5vw,48px); color:#fff; margin-top:14px; text-shadow:2px 2px 0 rgba(194,24,91,0.5); }
+.hero-date { background:rgba(255,255,255,0.28); border:1.5px solid rgba(255,255,255,0.55); border-radius:30px; padding:10px 28px; color:white; font-size:15px; font-weight:600; margin-top:22px; display:inline-block; }
+.scroll-hint { margin-top:36px; color:rgba(255,255,255,0.85); font-size:14px; animation:bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+/* PHOTO SECTION */
+.photos-section { background:white; padding:60px 20px; }
+.section-title { font-family:'Dancing Script',cursive; font-size:34px; color:#c2185b; text-align:center; margin-bottom:26px; }
+.section-sub { text-align:center; color:#e91e8a; font-size:13px; margin-bottom:20px; }
+.photo-grid { max-width:800px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.photo-card {
+    text-align: center;
+    margin: 15px;
+}
+
+.photo-card img {
+    width: 250px;      /* ubah sesuai kebutuhan */
+    height: 250px;     /* opsional */
+    object-fit: cover; /* agar proporsional */
+    border-radius: 15px;
+    display: block;
+    margin: 0 auto;
+}
+.photo-placeholder { font-size:34px; margin-bottom:6px; }
+.photo-label { font-size:11px; color:#c2185b; font-weight:700; text-align:center; padding:2px 8px; }
+input[type="file"] { display:none; }
+
+/* BIBLE SECTION */
+.bible-section { background:linear-gradient(180deg,#fff0f5 0%,#fce4ec 100%); padding:60px 20px; }
+.verse-cards { max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:18px; }
+.verse-card { background:white; border-radius:22px; padding:26px 28px; border-left:6px solid #e91e8a; box-shadow:0 4px 20px rgba(233,30,138,0.08); position:relative; overflow:hidden; }
+.verse-card::before { content:'"'; font-family:'Pacifico',cursive; font-size:100px; color:#fce4ec; position:absolute; top:-15px; left:8px; line-height:1; z-index:0; }
+.verse-text { font-family:'Dancing Script',cursive; font-size:19px; color:#880e4f; line-height:1.65; position:relative; z-index:1; margin-bottom:8px; }
+.verse-ref { font-size:13px; color:#e91e8a; font-weight:700; position:relative; z-index:1; }
+.verse-emoji { font-size:22px; margin-bottom:6px; display:block; }
+
+/* ENCOURAGE SECTION */
+.encourage-section { background:white; padding:60px 20px; }
+.enc-grid { max-width:800px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; }
+.enc-card { background:linear-gradient(135deg,#fce4ec,#f8bbd0); border-radius:20px; padding:22px 16px; text-align:center; border:2px solid #f48fb1; transition:transform 0.2s; }
+.enc-card:hover { transform:translateY(-5px); }
+.enc-emoji { font-size:36px; margin-bottom:10px; }
+.enc-title { font-family:'Dancing Script',cursive; font-size:18px; color:#c2185b; margin-bottom:6px; }
+.enc-text { font-size:12px; color:#880e4f; line-height:1.75; }
+.milestone-row { max-width:800px; margin:22px auto 0; display:flex; gap:12px; flex-wrap:wrap; }
+.ms-card { flex:1; min-width:130px; background:white; border:2px solid #f48fb1; border-radius:16px; padding:14px 10px; text-align:center; }
+.ms-icon { font-size:26px; margin-bottom:6px; }
+.ms-label { font-size:12px; font-weight:700; color:#c2185b; margin-bottom:5px; }
+.ms-badge { font-size:11px; border-radius:20px; padding:3px 10px; display:inline-block; font-weight:600; }
+.done { background:#e8f5e9; color:#2e7d32; }
+.on { background:#fff3e0; color:#e65100; }
+.soon { background:#fce4ec; color:#c2185b; }
+
+/* GAME SECTION */
+.game-section { background:linear-gradient(160deg,#fce4ec,#fff0f5); padding:60px 20px; }
+.game-tabs { max-width:800px; margin:0 auto 22px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.game-tab { background:white; border:2px solid #f48fb1; border-radius:30px; padding:10px 20px; font-family:'Quicksand',sans-serif; font-size:13px; font-weight:700; color:#c2185b; cursor:pointer; transition:all 0.2s; }
+.game-tab.active { background:linear-gradient(135deg,#e91e8a,#c2185b); color:white; border-color:transparent; }
+.game-tab:hover { transform:scale(1.05); }
+.game-box { max-width:600px; margin:0 auto; background:white; border-radius:22px; padding:26px; box-shadow:0 4px 20px rgba(233,30,138,0.1); }
+.quiz-q { font-family:'Dancing Script',cursive; font-size:21px; color:#880e4f; margin-bottom:18px; text-align:center; }
+.quiz-opts { display:flex; flex-direction:column; gap:10px; }
+.quiz-opt { background:#fce4ec; border:2px solid #f48fb1; border-radius:14px; padding:12px 18px; font-family:'Quicksand',sans-serif; font-size:14px; font-weight:600; color:#880e4f; cursor:pointer; transition:all 0.2s; text-align:left; }
+.quiz-opt:hover { background:#f48fb1; color:white; transform:translateX(4px); }
+.quiz-opt.correct { background:#a5d6a7!important; border-color:#4caf50!important; color:#1b5e20!important; }
+.quiz-opt.wrong { background:#ef9a9a!important; border-color:#f44336!important; color:#b71c1c!important; }
+.quiz-score { text-align:center; font-family:'Dancing Script',cursive; font-size:19px; color:#c2185b; margin-top:14px; min-height:28px; }
+.quiz-next { background:linear-gradient(135deg,#e91e8a,#c2185b); color:white; border:none; border-radius:30px; padding:11px 26px; font-family:'Quicksand',sans-serif; font-size:14px; font-weight:700; cursor:pointer; margin:14px auto 0; display:none; }
+.quiz-next:hover { transform:scale(1.05); }
+#catch-canvas { width:100%; height:260px; border-radius:14px; background:linear-gradient(180deg,#fce4ec,#fff0f5); border:2px dashed #f48fb1; display:block; cursor:none; }
+.catch-score { text-align:center; font-family:'Dancing Script',cursive; font-size:21px; color:#c2185b; margin-top:10px; }
+.scratch-msg-top { font-family:'Dancing Script',cursive; font-size:18px; color:#880e4f; margin-bottom:14px; text-align:center; }
+#scratch-canvas { border-radius:14px; cursor:crosshair; display:block; margin:0 auto; max-width:100%; }
+.scratch-reveal { font-family:'Dancing Script',cursive; font-size:18px; color:#c2185b; margin-top:12px; text-align:center; min-height:28px; line-height:1.5; }
+.game-btn { background:linear-gradient(135deg,#e91e8a,#c2185b); color:white; border:none; border-radius:30px; padding:11px 24px; font-family:'Quicksand',sans-serif; font-weight:700; cursor:pointer; font-size:13px; margin-top:10px; display:block; margin-left:auto; margin-right:auto; }
+.game-btn:hover { transform:scale(1.05); }
+
+/* LETTER SECTION */
+.letter-section { background:linear-gradient(160deg,#fff0f5,#fce4ec); padding:60px 20px; }
+.letter-card { max-width:720px; margin:0 auto; }
+.letter-top { background:linear-gradient(160deg,#ff6faa,#ffb3d1,#ffd6e7); border-radius:28px 28px 0 0; padding:36px 28px 28px; text-align:center; }
+.letter-top-emoji { font-size:46px; animation:wiggle 2s ease-in-out infinite; margin-bottom:10px; display:block; }
+.letter-top-title { font-family:'Pacifico',cursive; font-size:26px; color:white; text-shadow:2px 2px 0 rgba(194,24,91,0.4); margin-bottom:4px; }
+.letter-top-sub { font-family:'Dancing Script',cursive; font-size:20px; color:rgba(255,255,255,0.92); }
+.letter-body-wrap { background:white; border-radius:0 0 28px 28px; border:1.5px solid #f48fb1; border-top:none; padding:32px 28px 36px; }
+.letter-divider { width:100%; height:2px; background:linear-gradient(90deg,transparent,#f48fb1,#e91e8a,#f48fb1,transparent); margin-bottom:26px; }
+.salute { font-family:'Dancing Script',cursive; font-size:25px; color:#c2185b; margin-bottom:18px; }
+.lbody { font-size:15px; line-height:1.95; color:#4a0030; }
+.lbody p { margin-bottom:16px; }
+.story-blk { background:linear-gradient(135deg,#fce4ec,#fdf2f8); border-left:5px solid #e91e8a; border-radius:0 14px 14px 0; padding:18px 20px; margin:22px 0; font-family:'Dancing Script',cursive; font-size:18px; color:#880e4f; line-height:1.8; }
+.funny-blk { background:linear-gradient(135deg,#fce4ec,#fdf2f8); border:2px dashed #f48fb1; border-radius:18px; padding:20px 22px; margin:20px 0; }
+.funny-title { font-family:'Dancing Script',cursive; font-size:20px; color:#c2185b; margin-bottom:10px; }
+.funny-text { font-size:14px; color:#4a0030; line-height:1.9; }
+.verse-blk { background:linear-gradient(135deg,#f3e5f5,#fce4ec); border-radius:18px; padding:20px 22px; margin:20px 0; text-align:center; border:1.5px dashed #ce93d8; }
+.verse-lbl { font-size:10px; font-weight:700; color:#9c27b0; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; }
+.verse-t { font-family:'Dancing Script',cursive; font-size:18px; color:#6a1b9a; line-height:1.7; margin-bottom:6px; }
+.verse-r { font-size:12px; color:#9c27b0; font-weight:700; }
+.letter-close { margin-top:28px; text-align:right; }
+.close-text { font-family:'Dancing Script',cursive; font-size:17px; color:#880e4f; line-height:1.85; }
+.sign-name { font-family:'Pacifico',cursive; font-size:24px; color:#c2185b; margin-top:10px; }
+.deco-hearts { text-align:center; font-size:22px; margin-top:20px; letter-spacing:5px; animation:wiggle 2s ease-in-out infinite; }
+
+/* FOOTER */
+.site-footer { background:#880e4f; padding:32px 20px; text-align:center; }
+.footer-hearts { font-size:28px; animation:wiggle 2s infinite; letter-spacing:4px; }
+.footer-text { color:#fce4ec; font-size:13px; margin-top:8px; line-height:1.7; }
+
+/* FIREWORKS */
+.firework { position:fixed; pointer-events:none; z-index:9999; width:7px; height:7px; border-radius:50%; animation:fwAnim 1s ease-out forwards; }
+@keyframes fwAnim { 0%{opacity:1;transform:translate(0,0) scale(1)} 100%{opacity:0;transform:var(--fw-end) scale(0)} }
+.unlock-pop { animation:unlockPop 0.7s cubic-bezier(0.175,0.885,0.32,1.275) forwards; }
+@keyframes unlockPop { 0%{transform:scale(0.4);opacity:0} 60%{transform:scale(1.05);opacity:1} 100%{transform:scale(1);opacity:1} }
+
+
+#musicBtn{position:fixed;bottom:20px;right:20px;z-index:9999;border:none;border-radius:30px;padding:12px 18px;background:#e91e8a;color:white;font-weight:700;cursor:pointer;}
+
+@media (max-width:480px) {
+  .photo-grid { grid-template-columns:repeat(2,1fr); }
+  .pin-keypad { grid-template-columns:repeat(3,58px); }
+  .pin-btn { width:58px; height:58px; font-size:20px; }
+}
+</style>
+</head>
+<body>
+<audio id="bgMusic" loop><source src="Tulus - Monokrom (Instrumental) - Vocally.mp3" type="audio/mpeg"></audio>
+<button id="musicBtn">🎵 Musik</button>
+
+<div class="hearts-bg" id="hearts-bg"></div>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-emoji">🔐</div>
+  <div class="pin-title">Hei Helen Singa... 💕<br>Masukkan PIN ya!</div>
+  <div class="pin-sub">Hanya kita berdua yang tahu...</div>
+  <div class="pin-dots" id="pin-dots">
+    <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+    <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+  </div>
+  <div class="pin-keypad">
+    <button class="pin-btn" onclick="pp('1')">1</button>
+    <button class="pin-btn" onclick="pp('2')">2</button>
+    <button class="pin-btn" onclick="pp('3')">3</button>
+    <button class="pin-btn" onclick="pp('4')">4</button>
+    <button class="pin-btn" onclick="pp('5')">5</button>
+    <button class="pin-btn" onclick="pp('6')">6</button>
+    <button class="pin-btn" onclick="pp('7')">7</button>
+    <button class="pin-btn" onclick="pp('8')">8</button>
+    <button class="pin-btn" onclick="pp('9')">9</button>
+    <button class="pin-btn" onclick="pd()">⌫</button>
+    <button class="pin-btn" onclick="pp('0')">0</button>
+    <button class="pin-btn" onclick="clearPin()" style="font-size:14px">✖</button>
+  </div>
+  <div class="pin-error" id="pin-error"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main-content">
+
+  <!-- HERO -->
+  <section class="hero" id="hero-sec">
+    <div class="hero-emoji-row">🎂 🎉 🌸 🎀 ✨ 💕</div>
+    <div class="hero-title">Happy Birthday</div>
+    <div class="hero-age">22</div>
+    <div class="hero-name">Helen Ester Ria Singarimbun 🌸</div>
+    <div class="hero-date">🗓️ 7 Juni 2026 · Selamat ulang tahun!</div>
+    <div class="scroll-hint">scroll ke bawah ya singa 👇✨</div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section class="photos-section">
+    <h2 class="section-title">📸 Kenangan Kita 💕</h2>
+ <div class="photo-card">
+  <img src="foto1.jpg" alt="Momen kita">
+</div>
+
+<div class="photo-card">
+  <img src="foto2.jpg" alt="Momen kita">
+</div>
+
+<div class="photo-card">
+  <img src="foto3.jpg" alt="Foto favorit">
+</div>
+
+<div class="photo-card">
+  <img src="foto4.jpg" alt="Jalan-jalan">
+</div>
+
+<div class="photo-card">
+  <img src="foto5.jpg" alt="Senyum terbaik">
+</div>
+
+<div class="photo-card">
+  <img src="foto6.jpg" alt="Paling spesial">
+</div>
+  </section>
+
+  <!-- BIBLE VERSES -->
+  <section class="bible-section">
+    <h2 class="section-title">📖 Firman Tuhan untuk Hari Istimewamu 🌟</h2>
+    <div class="verse-cards">
+      <div class="verse-card"><span class="verse-emoji">🌺</span>
+        <div class="verse-text">"Karena Aku ini mengetahui rancangan-rancangan apa yang ada pada-Ku mengenai kamu, yaitu rancangan damai sejahtera dan bukan rancangan kecelakaan, untuk memberikan kepadamu hari depan yang penuh harapan."</div>
+        <div class="verse-ref">— Yeremia 29:11 ✨</div>
+      </div>
+      <div class="verse-card"><span class="verse-emoji">💪</span>
+        <div class="verse-text">"Segala perkara dapat kutanggung di dalam Dia yang memberi kekuatan kepadaku."</div>
+        <div class="verse-ref">— Filipi 4:13 🌿</div>
+      </div>
+      <div class="verse-card"><span class="verse-emoji">👑</span>
+        <div class="verse-text">"Berbahagialah orang yang bertahan dalam pencobaan, sebab apabila ia sudah tahan uji, ia akan menerima mahkota kehidupan yang dijanjikan Allah kepada barangsiapa yang mengasihi Dia."</div>
+        <div class="verse-ref">— Yakobus 1:12 🌸</div>
+      </div>
+      <div class="verse-card"><span class="verse-emoji">🌸</span>
+        <div class="verse-text">"Ia membuat segala sesuatu indah pada waktunya, bahkan Ia memberikan kekekalan dalam hati mereka."</div>
+        <div class="verse-ref">— Pengkhotbah 3:11 💕</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENCOURAGE -->
+  <section class="encourage-section">
+    <h2 class="section-title">🎓 Semangat Terus, Pejuang S.Kom! 🏆</h2>
+    <div class="enc-grid">
+      <div class="enc-card"><div class="enc-emoji">📝</div><div class="enc-title">Seminar Proposal ✅</div><div class="enc-text">Kamu udah lalui ini dengan luar biasa! Bangga banget sama kamu !</div></div>
+      <div class="enc-card"><div class="enc-emoji">📊</div><div class="enc-title">Seminar Hasil 🔥</div><div class="enc-text">Proses ini pasti kamu lewati juga! Kamu selalu bisa melebihi ekspektasi!</div></div>
+      <div class="enc-card"><div class="enc-emoji">🎓</div><div class="enc-title">Sidang Meja Hijau 🌿</div><div class="enc-text">Hari itu akan tiba dan kamu akan berdiri di sana dengan senyum paling bahagia!</div></div>
+      <div class="enc-card"><div class="enc-emoji">💻</div><div class="enc-title">Helen, S.Kom ✨</div><div class="enc-text">Nama itu sudah ada, tinggal kamu yang melangkah menggapainya!</div></div>
+    </div>
+    <div class="milestone-row">
+      <div class="ms-card"><div class="ms-icon">📝</div><div class="ms-label">Sempro</div><div class="ms-badge done">✅ Selesai!</div></div>
+      <div class="ms-card"><div class="ms-icon">📊</div><div class="ms-label">Semhas</div><div class="ms-badge on">🔥 Sedang berjalan</div></div>
+      <div class="ms-card"><div class="ms-icon">🎓</div><div class="ms-label">Sidang</div><div class="ms-badge soon">🌟 Akan tiba!</div></div>
+      <div class="ms-card"><div class="ms-icon">💻</div><div class="ms-label">S.Kom</div><div class="ms-badge soon">💕 Hampir!</div></div>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+  <section class="game-section">
+    <h2 class="section-title">🎮 Mini Games Buat Helen! 🎀</h2>
+    <div class="game-tabs">
+      <button class="game-tab active" onclick="switchGame('quiz')">💘 Kuis Cinta</button>
+      <button class="game-tab" onclick="switchGame('catch')">💝 Tangkap Hati</button>
+      <button class="game-tab" onclick="switchGame('scratch')">🎊 Scratch Card</button>
+    </div>
+    <div class="game-box">
+      <div id="quiz-game">
+        <div class="quiz-q" id="quiz-q">Loading...</div>
+        <div class="quiz-opts" id="quiz-opts"></div>
+        <div class="quiz-score" id="quiz-score"></div>
+        <button class="quiz-next" id="quiz-next" onclick="nextQ()">Pertanyaan berikutnya ➡️</button>
+      </div>
+      <div id="catch-game" style="display:none">
+        <canvas id="catch-canvas"></canvas>
+        <div class="catch-score" id="catch-score">❤️ Score: 0 | Hindari 💔</div>
+        <button class="game-btn" onclick="startCatch()">▶️ Main Lagi</button>
+      </div>
+      <div id="scratch-game" style="display:none">
+        <div class="scratch-msg-top">Gosok pelan-pelan ya Helen... 🥰</div>
+        <canvas id="scratch-canvas" width="400" height="190"></canvas>
+        <div class="scratch-reveal" id="scratch-out"></div>
+        <button class="game-btn" onclick="resetScratch()">🔄 Coba Lagi</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOVE LETTER -->
+  <section class="letter-section">
+    <h2 class="section-title">💌 Surat Cinta Untukmu, Helen</h2>
+    <div class="letter-card">
+      <div class="letter-top">
+        <span class="letter-top-emoji">💌</span>
+        <div class="letter-top-title">Untuk Helen Ester Ria Singarimbun</div>
+        <div class="letter-top-sub">7 Juni 2026 · Ultah ke-22 💕</div>
+      </div>
+      <div class="letter-body-wrap">
+        <div class="letter-divider"></div>
+        <div class="salute">Hei, Helen... 🌸</div>
+        <div class="lbody">
+
+          <p>Selamat ulang tahun yang ke-22 ya, singa. Hari ini, aku mau kasih sesuatu yang lebih dari sekadar hadiah biasa — aku mau kasih kamu tulisan dari hati yang paling dalam, yang udah lama pengen aku sampaikan tapi susah diungkapkan lewat kata-kata lisan.</p>
+
+          <div class="funny-blk">
+            <div class="funny-title">🤣 Dari dua orang asing di kelas yang sama...</div>
+            <div class="funny-text">
+              Kamu tahu nggak — kita tuh pernah satu kelas di semester 1, dan aku nggak tau siapa kamu, kamu nggak tau siapa aku. Dua orang asing yang duduk di kelas yang sama, mungkin pernah beberapa kali papasan tanpa sadar. Lucu banget kalau diingat lagi, ya? Kayak Tuhan lagi nyusun skenarionya pelan-pelan, biar kita nggak langsung ketemu terlalu cepat... 😄
+              <br><br>
+              Sampai akhirnya — sore itu di rumah Pak Yosi — kita ngobrol. Beneran ngobrol, bukan cuma sekadar say hi. Kita bahas masalah kita masing-masing, dan entah gimana malah berujung <strong style="color:#c2185b">debat soal WhatsApp!</strong> Kamu udah save nomor aku, tapi aku <em>belum</em> save nomor kamu. Wkwkwk Helen, itu bukan salah aku 100% ya... tapi oke oke, aku akui itu sedikit ceroboh dari aku 😂. Dan dari debat kecil yang receh itu — itulah titik awal dari perjalanan cinta kita yang luar biasa ini. 💕
+            </div>
+          </div>
+
+          <div class="funny-blk">
+            <div class="funny-title">🎂 Ultahmu ke-19 — Prank yang Nggak Akan Pernah Aku Lupakan!</div>
+            <div class="funny-text">
+              Ini yang paling bikin aku ketawa sekaligus terharu setiap kali ingat... Waktu itu ultahmu yang ke-19, aku udah kompromi sama teman-temanmu buat bilang kalau <strong style="color:#c2185b">"Agung kecelakaan."</strong>
+              <br><br>
+              Dan kamu... langsung panik total! Kamu kaget, mau keluar, mau nyariin aku. Itu artinya kamu sayang banget sama aku, Helen 🥺. Dan persis di momen kamu paling panik itu — aku datang, bawa kejutan untuk ulang tahunmu.
+              <br><br>
+              Kamu nangis. Dan aku nggak tau mau seneng atau sedih ngeliatnya, karena campuran antara lega, terharu, dan sedikit bersalah udah prank kamu separah itu 😅. Tapi di balik semua panik dan air mata itu — <strong style="color:#c2185b">kamu cinta aku sebesar kamu panik waktu itu.</strong> Dan itu lebih dari cukup buatku. 💕
+            </div>
+          </div>
+
+          <div class="story-blk">💭 Dari dua orang asing di kelas yang sama, ke debat WA di rumah Pak Yosi, ke prank ultah yang bikin kamu nangis... setiap momen itu bukan kebetulan. Itu Tuhan yang sedang merajut cerita kita, satu benang setiap harinya.</div>
+
+          <p>Sekarang, di usiamu yang ke-22 ini, aku mau kamu tahu betapa bangganya aku sama kamu, Helen. Kamu baru aja selesai seminar proposal — sesuatu yang banyak orang anggap berat, tapi kamu lalui dengan kepala tegak. Seminar hasil itu memang penuh tekanan, banyak revisi, banyak malam yang mungkin kamu lewati dengan kelelahan. Tapi aku percaya sama kamu — karena aku udah lihat sendiri betapa kerasnya kamu berjuang.</p>
+
+          <div class="verse-blk">
+            <div class="verse-lbl">✦ Untuk kekuatan di seminar hasil ✦</div>
+            <div class="verse-t">"Segala perkara dapat kutanggung di dalam Dia yang memberi kekuatan kepadaku."</div>
+            <div class="verse-r">— Filipi 4:13 💪</div>
+          </div>
+
+          <div class="verse-blk">
+            <div class="verse-lbl">✦ Saat mendekati sidang meja hijau ✦</div>
+            <div class="verse-t">"Berbahagialah orang yang bertahan dalam pencobaan, sebab apabila ia sudah tahan uji, ia akan menerima mahkota kehidupan."</div>
+            <div class="verse-r">— Yakobus 1:12 👑</div>
+          </div>
+
+          <div class="verse-blk">
+            <div class="verse-lbl">✦ Untuk masa depanmu yang indah ✦</div>
+            <div class="verse-t">"Karena Aku mengetahui rancangan-rancangan apa yang ada pada-Ku mengenai kamu, yaitu rancangan damai sejahtera dan bukan rancangan kecelakaan, untuk memberikan kepadamu hari depan yang penuh harapan."</div>
+            <div class="verse-r">— Yeremia 29:11 🌿</div>
+          </div>
+
+          <p>Nanti waktu sidang meja hijau tiba, aku mau kamu ingat ini: kamu nggak sendirian. Tuhan ada di depanmu, keluarga ada di belakangmu, dan aku — aku selalu ada di sampingmu, dari awal sampai kamu berdiri di sana dengan toga dan senyum paling cantik yang pernah aku lihat.</p>
+
+          <p style="text-align:center;font-family:'Dancing Script',cursive;font-size:21px;color:#c2185b;font-weight:700;margin:24px 0">
+            Helen Ester Ria Singarimbun, S.Kom 🎓✨<br>
+            <span style="font-size:15px;color:#880e4f;font-family:'Quicksand',sans-serif;font-weight:600">nama itu sudah ada, tinggal kamu yang melangkah menggapainya.</span>
+          </p>
+
+          <div class="story-blk">🌺 Di usiamu yang ke-22 ini, semoga Tuhan selalu memberkati setiap langkahmu, memberikan hikmat yang berlipat, kekuatan yang tak habis-habis, dan sukacita yang meluap dalam setiap harimu. Kamu layak untuk semua kebaikan yang Tuhan sudah siapkan. 🙏</div>
+
+        </div>
+        <div class="letter-close">
+          <div class="close-text">
+            Dengan seluruh cinta yang ada dalam hatiku,<br>
+            untuk perempuan paling luar biasa yang pernah aku kenal,<br>
+            yang bahkan dari debat soal WA aja bisa bikin aku jatuh cinta... 😄💕
+          </div>
+          <div class="sign-name">— Pernanda 💖</div>
+        </div>
+        <div class="deco-hearts">💕 🌸 💕 🌸 💕</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-hearts">💕 🌸 💕 🌸 💕</div>
+    <div class="footer-text">
+      Happy 22nd Birthday, Helen Ester Ria Singarimbun ✨<br>
+      7 Juni 2026 · Made with all my love, Pernanda ❤️
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// FLOATING HEARTS
+(function(){
+  const bg=document.getElementById('hearts-bg');
+  const em=['💕','💖','🌸','✨','💝','🦋','🌺','💗'];
+  setInterval(()=>{
+    const el=document.createElement('div');
+    el.className='heart-float';
+    el.textContent=em[Math.floor(Math.random()*em.length)];
+    el.style.left=Math.random()*100+'%';
+    el.style.fontSize=(12+Math.random()*18)+'px';
+    el.style.animationDuration=(4+Math.random()*6)+'s';
+    bg.appendChild(el);
+    setTimeout(()=>el.remove(),11000);
+  },700);
+})();
+
+// PIN
+let pin='';
+function pp(d){
+  if(pin.length>=6)return;
+  pin+=d;
+  updateDots();
+  if(pin.length===6)setTimeout(checkPin,250);
+}
+function pd(){ if(!pin.length)return; pin=pin.slice(0,-1); updateDots(); document.getElementById('pin-error').textContent=''; }
+function clearPin(){ pin=''; updateDots(); document.getElementById('pin-error').textContent=''; }
+function updateDots(){ document.querySelectorAll('.pin-dot').forEach((d,i)=>d.classList.toggle('filled',i<pin.length)); }
+function checkPin(){
+  if(pin==='100523'){
+    const music=document.getElementById('bgMusic'); if(music){music.volume=0.35; music.play().catch(()=>{});} 
+    launchFireworks();
+    setTimeout(()=>{
+      const ps=document.getElementById('pin-screen');
+      ps.style.transition='opacity 0.8s,transform 0.8s';
+      ps.style.opacity='0'; ps.style.transform='scale(1.1)';
+      setTimeout(()=>{
+        ps.style.display='none';
+        const mc=document.getElementById('main-content');
+        mc.style.display='block';
+        mc.classList.add('unlock-pop');
+        makeConfetti();
+        initQuiz(); initCatch(); initScratch();
+      },850);
+    },700);
+  } else {
+    document.getElementById('pin-error').textContent='❌ PIN salah, coba lagi ya Helen! 😄';
+    const dots=document.getElementById('pin-dots');
+    dots.classList.remove('pin-shake');
+    void dots.offsetWidth;
+    dots.classList.add('pin-shake');
+    pin=''; setTimeout(()=>updateDots(),100);
+  }
+}
+function launchFireworks(){
+  const cols=['#e91e8a','#ff6faa','#c2185b','#f48fb1','#ffb3d1','#fff'];
+  for(let i=0;i<70;i++) setTimeout(()=>{
+    const fw=document.createElement('div'); fw.className='firework';
+    fw.style.left=(15+Math.random()*70)+'vw';
+    fw.style.top=(5+Math.random()*60)+'vh';
+    fw.style.background=cols[Math.floor(Math.random()*cols.length)];
+    const dx=(Math.random()-.5)*220+'px',dy=(Math.random()-.5)*220+'px';
+    fw.style.setProperty('--fw-end',`translate(${dx},${dy})`);
+    document.body.appendChild(fw);
+    setTimeout(()=>fw.remove(),1000);
+  },i*18);
+}
+function makeConfetti(){
+  const h=document.getElementById('hero-sec');
+  const cols=['#ff6faa','#ffb3d1','#fff0f5','#fff','#ffd6e7','#e91e8a','#fce4ec'];
+  for(let i=0;i<45;i++){
+    const c=document.createElement('div'); c.className='confetti-piece';
+    c.style.left=Math.random()*100+'%'; c.style.top=(Math.random()*-12)+'%';
+    c.style.background=cols[Math.floor(Math.random()*cols.length)];
+    c.style.width=(6+Math.random()*10)+'px'; c.style.height=(6+Math.random()*10)+'px';
+    c.style.borderRadius=Math.random()>.5?'50%':'2px';
+    c.style.animationDuration=(3+Math.random()*5)+'s';
+    c.style.animationDelay=(Math.random()*5)+'s';
+    h.appendChild(c);
+  }
+}
+
+
+// QUIZ
+const qData=[
+  {q:"Di mana kita pertama kali beneran ngobrol panjang? 💭",opts:["Di kampus","Di rumah Pak Yosi","Di kantin","Di chat WA"],a:1},
+  {q:"Apa yang jadi awal perdebatan kita yang lucu banget? 😄",opts:["Soal tugas kuliah","Soal nomor WA yang belum di-save","Soal jadwal kelas","Soal makanan favorit"],a:1},
+  {q:"Prank apa yang Agung lakuin di ultahmu ke-19? 🎂",opts:["Pura-pura lupa ultahmu","Bilang Agung kecelakaan","Tidak datang sama sekali","Terlambat datang"],a:1},
+  {q:"Apa reaksi Helen waktu di-prank? 🥺",opts:["Ketawa-ketawa santai","Marah-marah","Panik dan nangis","Biasa aja, nggak percaya"],a:2},
+  {q:"Gelar apa yang sedang Helen perjuangkan sekarang? 🎓",opts:["S.T","S.Kom","S.E","S.Pd"],a:1},
+];
+let qIdx=0,qScore=0,qAnswered=false;
+function initQuiz(){ qIdx=0; qScore=0; showQ(); }
+function showQ(){
+  if(qIdx>=qData.length){
+    document.getElementById('quiz-q').textContent='🎉 Kuis selesai, Helen!';
+    document.getElementById('quiz-opts').innerHTML='';
+    document.getElementById('quiz-score').textContent='Skor kamu: '+qScore+'/'+qData.length+' 💕 Kamu luar biasa!';
+    document.getElementById('quiz-next').style.display='none';
+    return;
+  }
+  qAnswered=false;
+  const q=qData[qIdx];
+  document.getElementById('quiz-q').textContent=q.q;
+  document.getElementById('quiz-score').textContent='Skor: '+qScore+'/'+qIdx;
+  document.getElementById('quiz-next').style.display='none';
+  const el=document.getElementById('quiz-opts'); el.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='quiz-opt'; b.textContent=o;
+    b.onclick=()=>ansQ(i,b); el.appendChild(b);
+  });
+}
+function ansQ(i,btn){
+  if(qAnswered)return; qAnswered=true;
+  const q=qData[qIdx];
+  if(i===q.a){ btn.classList.add('correct'); qScore++; document.getElementById('quiz-score').textContent='✅ Betul! Skor: '+qScore+' 🎉'; }
+  else { btn.classList.add('wrong'); document.querySelectorAll('.quiz-opt')[q.a].classList.add('correct'); document.getElementById('quiz-score').textContent='Yang hijau itu jawabannya ya! Skor: '+qScore; }
+  document.getElementById('quiz-next').style.display='block';
+}
+function nextQ(){ qIdx++; showQ(); }
+
+// CATCH HEARTS
+let cRAF,cScore,cItems,cBasket;
+function initCatch(){
+  const cv=document.getElementById('catch-canvas'),ctx=cv.getContext('2d');
+  cv.width=cv.offsetWidth; cv.height=260;
+  cScore=0; cItems=[];
+  cBasket={x:cv.width/2-30,y:cv.height-38,w:60,h:18};
+  cv.addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();cBasket.x=e.clientX-r.left-cBasket.w/2;});
+  cv.addEventListener('touchmove',e=>{e.preventDefault();const r=cv.getBoundingClientRect();cBasket.x=e.touches[0].clientX-r.left-cBasket.w/2;},{passive:false});
+  startCatch();
+}
+function startCatch(){ cScore=0; cItems=[]; if(cRAF)cancelAnimationFrame(cRAF); cLoop(); }
+function cLoop(){
+  const cv=document.getElementById('catch-canvas'); if(!cv)return;
+  const ctx=cv.getContext('2d'); ctx.clearRect(0,0,cv.width,cv.height);
+  if(Math.random()<0.04) cItems.push({x:20+Math.random()*(cv.width-40),y:-20,type:Math.random()<0.7?'heart':'broken',speed:1.5+Math.random()*2,size:16+Math.random()*12});
+  cItems.forEach(it=>it.y+=it.speed);
+  cItems=cItems.filter(it=>{
+    if(it.y>cv.height+20)return false;
+    if(it.y+it.size>cBasket.y&&it.x>cBasket.x&&it.x<cBasket.x+cBasket.w){
+      if(it.type==='heart')cScore+=1; else cScore=Math.max(0,cScore-2);
+      document.getElementById('catch-score').textContent='❤️ Score: '+cScore+' | Hindari 💔';
+      return false;
+    }
+    return true;
+  });
+  cItems.forEach(it=>{ ctx.font=it.size+'px serif'; ctx.textAlign='center'; ctx.fillText(it.type==='heart'?'💕':'💔',it.x,it.y); });
+  ctx.fillStyle='#e91e8a'; if(ctx.roundRect){ctx.beginPath();ctx.roundRect(cBasket.x,cBasket.y,cBasket.w,cBasket.h,10);ctx.fill();}else{ctx.fillRect(cBasket.x,cBasket.y,cBasket.w,cBasket.h);}
+  ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillStyle='white'; ctx.fillText('🫶',cBasket.x+cBasket.w/2,cBasket.y+13);
+  cRAF=requestAnimationFrame(cLoop);
+}
+
+// SCRATCH CARD
+const sMsgs=[
+  "🎂 Selamat Ultah ke-22, Helen singa! Makin cantik & makin luar biasa! 💕",
+  "🌟 Kamu adalah hadiah terbaik dalam hidupku, Helen! I love you! 💖",
+  "🎓 Semangat semhas & sidang meja hijau! Helen S.Kom — PASTI BISA! 💪",
+  "🙏 Tuhan selalu memberkati setiap langkahmu ya singa! Yeremia 29:11 ✨",
+  "💌 Dari debat WA sampai selamanya — I love you forever, Helen! 💕",
+];
+let sMsgIdx=0;
+function initScratch(){ resetScratch(); }
+function resetScratch(){
+  const cv=document.getElementById('scratch-canvas'),ctx=cv.getContext('2d');
+  const msg=sMsgs[sMsgIdx%sMsgs.length]; sMsgIdx++;
+  cv.width=Math.min(400,window.innerWidth-60); cv.height=190;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle='#c2185b'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.fillStyle='rgba(255,255,255,0.12)';
+  for(let i=0;i<30;i++){ ctx.font='15px serif'; ctx.textAlign='left'; ctx.fillText(['✨','🌸','💕','🎀','💖'][Math.floor(Math.random()*5)],Math.random()*cv.width,10+Math.random()*(cv.height-10)); }
+  ctx.fillStyle='rgba(255,255,255,0.22)'; ctx.font='bold 16px Quicksand,sans-serif'; ctx.textAlign='center'; ctx.fillText('✦ Gosok di sini untuk surprise! ✦',cv.width/2,cv.height/2);
+  document.getElementById('scratch-out').textContent='';
+  let drawing=false,scratched=0;
+  function scratch(x,y){ ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,26,0,Math.PI*2); ctx.fill(); scratched+=Math.PI*26*26; if(scratched/(cv.width*cv.height)>0.38) document.getElementById('scratch-out').textContent=msg; }
+  const newCv=cv.cloneNode(true); cv.parentNode.replaceChild(newCv,cv);
+  const c2=document.getElementById('scratch-canvas'); const ctx2=c2.getContext('2d');
+  c2.width=cv.width; c2.height=cv.height;
+  ctx2.fillStyle='#c2185b'; ctx2.fillRect(0,0,c2.width,c2.height);
+  ctx2.fillStyle='rgba(255,255,255,0.12)';
+  for(let i=0;i<30;i++){ ctx2.font='15px serif'; ctx2.textAlign='left'; ctx2.fillText(['✨','🌸','💕','🎀','💖'][Math.floor(Math.random()*5)],Math.random()*c2.width,10+Math.random()*(c2.height-10)); }
+  ctx2.fillStyle='rgba(255,255,255,0.22)'; ctx2.font='bold 16px Quicksand,sans-serif'; ctx2.textAlign='center'; ctx2.fillText('✦ Gosok di sini untuk surprise! ✦',c2.width/2,c2.height/2);
+  let d2=false,s2=0;
+  function sc2(x,y){ ctx2.globalCompositeOperation='destination-out'; ctx2.beginPath(); ctx2.arc(x,y,26,0,Math.PI*2); ctx2.fill(); s2+=Math.PI*26*26; if(s2/(c2.width*c2.height)>0.38) document.getElementById('scratch-out').textContent=msg; }
+  c2.onmousedown=()=>d2=true; c2.onmouseup=()=>d2=false; c2.onmouseleave=()=>d2=false;
+  c2.onmousemove=e=>{ if(!d2)return; const r=c2.getBoundingClientRect(); sc2(e.clientX-r.left,e.clientY-r.top); };
+  c2.ontouchstart=e=>{d2=true;e.preventDefault();}; c2.ontouchend=()=>d2=false;
+  c2.ontouchmove=e=>{ e.preventDefault(); if(!d2)return; const r=c2.getBoundingClientRect(); sc2(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top); };
+}
+
+const musicBtn=document.getElementById('musicBtn');
+if(musicBtn){musicBtn.onclick=()=>{const m=document.getElementById('bgMusic'); if(!m)return; if(m.paused){m.play();}else{m.pause();}};}
+
+// GAME TABS
+function switchGame(n){
+  ['quiz','catch','scratch'].forEach(g=>document.getElementById(g+'-game').style.display=g===n?'block':'none');
+  document.querySelectorAll('.game-tab').forEach((t,i)=>t.classList.toggle('active',['quiz','catch','scratch'][i]===n));
+  if(n==='catch')startCatch();
+}
+</script>
+</body>
+</html>
